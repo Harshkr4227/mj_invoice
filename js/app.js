@@ -6,7 +6,6 @@ function getShopSettings() {
 
     return {
         shopName: 'Mahalaxmi Jewellers',
-        shopPhone: '+91 9876543210',
         shopAddress: '123, MG Road, Bangalore - 560001, Karnataka, India',
         shopEmail: 'info@mahalaxmijewellers.com',
         gstin: '29AAAAA0000A1Z5',

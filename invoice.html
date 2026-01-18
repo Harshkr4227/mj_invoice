@@ -100,7 +100,7 @@
             <div class="shop-details">
                 <h1 id="print-shopName"></h1>
                 <p id="print-shopAddress"></p>
-                <p>Phone: <span id="print-shopPhone"></span> | Email: <span id="print-shopEmail"></span></p>
+                <p>Email: <span id="print-shopEmail"></span></p>
                 <p>GSTIN: <span id="print-gstin"></span></p>
             </div>
 
@@ -420,7 +420,6 @@
             
             document.getElementById('print-shopName').textContent = settings.shopName || '';
             document.getElementById('print-shopAddress').textContent = shopAddress;
-            document.getElementById('print-shopPhone').textContent = settings.shopPhone || '';
             document.getElementById('print-shopEmail').textContent = settings.shopEmail || '';
             document.getElementById('print-gstin').textContent = settings.gstin || '';
 

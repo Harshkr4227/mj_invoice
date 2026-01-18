@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Settings - Jewellery Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h1>Admin Settings</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Dashboard</a>
+            <a href="invoice.html" class="nav-link">Create Invoice</a>
+            <a href="records.html" class="nav-link">Invoice Records</a>
+            <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Shop Configuration</h2>
+            <p>Update your shop details and rates</p>
+        </div>
+
+        <form id="adminForm" class="admin-form">
+            <div class="form-section">
+                <h3>Shop Details</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="shopName">Shop Name *</label>
+                        <input type="text" id="shopName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shopPhone">Phone Number *</label>
+                        <input type="tel" id="shopPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shopEmail">Email</label>
+                        <input type="email" id="shopEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="gstin">GSTIN Number *</label>
+                        <input type="text" id="gstin" required placeholder="22AAAAA0000A1Z5">
+                    </div>
+                    <div class="form-group">
+                        <label for="defaultBranch">Default Branch for Invoices *</label>
+                        <select id="defaultBranch" required>
+                            <option value="branch1">Jharia - Radha Krishna Mandir Road, Sabji Patti, Jharia – 828111</option>
+                            <option value="branch2">Dhanbad - Sahayogi Nagar, Near Ozone Galleria, Dhanbad – 828127</option>
+                            <option value="branch3">Saraidhella - Hari Om Center, Opp. ICICI Bank, Lohar Kulli, Saraidhella – 826007</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Metal Rates</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="goldRate">Gold Rate (₹/gram) *</label>
+                        <input type="number" id="goldRate" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="silverRate">Silver Rate (₹/gram) *</label>
+                        <input type="number" id="silverRate" step="0.01" min="0" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Purity Options</h3>
+                <div class="purity-options">
+                    <div class="purity-item">
+                        <label>
+                            <input type="checkbox" class="purity-checkbox" value="24K" checked> 24K (99.9%)
+                        </label>
+                    </div>
+                    <div class="purity-item">
+                        <label>
+                            <input type="checkbox" class="purity-checkbox" value="22K" checked> 22K (91.6%)
+                        </label>
+                    </div>
+                    <div class="purity-item">
+                        <label>
+                            <input type="checkbox" class="purity-checkbox" value="18K" checked> 18K (75%)
+                        </label>
+                    </div>
+                    <div class="purity-item">
+                        <label>
+                            <input type="checkbox" class="purity-checkbox" value="14K"> 14K (58.5%)
+                        </label>
+                    </div>
+                    <div class="purity-item">
+                        <label>
+                            <input type="checkbox" class="purity-checkbox" value="999"> Silver 999 (99.9%)
+                        </label>
+                    </div>
+                    <div class="purity-item">
+                        <label>
+                            <input type="checkbox" class="purity-checkbox" value="925"> Silver 925 (92.5%)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Making Charges</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="makingChargeType">Charge Type</label>
+                        <select id="makingChargeType">
+                            <option value="per_gram">Per Gram</option>
+                            <option value="percentage">Percentage of Metal Value</option>
+                            <option value="fixed">Fixed Amount</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="makingChargeValue">Default Value *</label>
+                        <input type="number" id="makingChargeValue" step="0.01" min="0" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>GST Configuration</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="gstPercentage">GST Percentage (Total) *</label>
+                        <input type="number" id="gstPercentage" step="0.01" min="0" max="100" required>
+                        <small>CGST and SGST will be calculated as half of this value</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save Settings</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='index.html'">Cancel</button>
+            </div>
+        </form>
+
+        <div class="success-message" id="successMessage" style="display: none;">
+            Settings saved successfully!
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        checkAuthentication();
+
+        const adminForm = document.getElementById('adminForm');
+        const successMessage = document.getElementById('successMessage');
+
+        function loadSettings() {
+            const settings = getShopSettings();
+
+            document.getElementById('shopName').value = settings.shopName || '';
+            document.getElementById('shopPhone').value = settings.shopPhone || '';
+            document.getElementById('shopAddress').value = settings.shopAddress || '';
+            document.getElementById('shopEmail').value = settings.shopEmail || '';
+            document.getElementById('gstin').value = settings.gstin || '';
+            document.getElementById('goldRate').value = settings.goldRate || 0;
+            document.getElementById('silverRate').value = settings.silverRate || 0;
+            document.getElementById('makingChargeType').value = settings.makingChargeType || 'per_gram';
+            document.getElementById('makingChargeValue').value = settings.makingChargeValue || 0;
+            document.getElementById('gstPercentage').value = settings.gstPercentage || 3;
+            document.getElementById('defaultBranch').value = settings.defaultBranch || 'branch1';
+
+            if (settings.purityOptions && settings.purityOptions.length > 0) {
+                document.querySelectorAll('.purity-checkbox').forEach(checkbox => {
+                    checkbox.checked = settings.purityOptions.includes(checkbox.value);
+                });
+            }
+        }
+
+        adminForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const purityOptions = Array.from(document.querySelectorAll('.purity-checkbox:checked'))
+                .map(cb => cb.value);
+
+            const settings = {
+                shopName: document.getElementById('shopName').value,
+                shopPhone: document.getElementById('shopPhone').value,
+                shopAddress: document.getElementById('shopAddress').value,
+                shopEmail: document.getElementById('shopEmail').value,
+                gstin: document.getElementById('gstin').value,
+                goldRate: parseFloat(document.getElementById('goldRate').value),
+                silverRate: parseFloat(document.getElementById('silverRate').value),
+                purityOptions: purityOptions,
+                makingChargeType: document.getElementById('makingChargeType').value,
+                makingChargeValue: parseFloat(document.getElementById('makingChargeValue').value),
+                gstPercentage: parseFloat(document.getElementById('gstPercentage').value),
+                defaultBranch: document.getElementById('defaultBranch').value
+            };
+
+            saveShopSettings(settings);
+
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            logout();
+        });
+
+        loadSettings();
+    </script>
+</body>
+</html>

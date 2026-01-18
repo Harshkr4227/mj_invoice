@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar no-print">
+        <div class="nav-brand">
+            <h1>Create Invoice</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Dashboard</a>
+            <a href="admin.html" class="nav-link">Admin Settings</a>
+            <a href="records.html" class="nav-link">Invoice Records</a>
+            <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container no-print">
+        <div class="invoice-form-container">
+            <form id="invoiceForm">
+                <div class="form-section">
+                    <h3>Customer Details</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="customerName">Customer Name *</label>
+                            <input type="text" id="customerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerMobile">Mobile Number *</label>
+                            <input type="tel" id="customerMobile" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="customerAddress">Address *</label>
+                            <textarea id="customerAddress" rows="2" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="invoiceDate">Invoice Date *</label>
+                            <input type="date" id="invoiceDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentMode">Payment Mode *</label>
+                            <select id="paymentMode" required>
+                                <option value="Cash">Cash</option>
+                                <option value="UPI">UPI</option>
+                                <option value="Card">Card</option>
+                                <option value="Bank Transfer">Bank Transfer</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Jewellery Items</h3>
+                    <div id="itemsContainer"></div>
+                    <button type="button" class="btn btn-secondary" id="addItemBtn">+ Add Item</button>
+                </div>
+
+                <div class="invoice-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotalDisplay">₹0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>CGST:</span>
+                        <span id="cgstDisplay">₹0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>SGST:</span>
+                        <span id="sgstDisplay">₹0.00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Grand Total:</span>
+                        <span id="grandTotalDisplay">₹0.00</span>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Generate Invoice</button>
+                    <button type="button" class="btn btn-secondary" onclick="location.href='index.html'">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="printableInvoice" class="printable-invoice" style="display: none;">
+        <!-- Watermark: Full logo with shop name, positioned fixed behind all content -->
+        <div class="invoice-watermark">
+            <img src="public/logo-removebg-preview.png" alt="Watermark" class="watermark-logo">
+        </div>
+
+        <!-- Invoice Header with icon-only logo on left -->
+        <div class="invoice-header">
+            <div class="invoice-logo">
+                <img src="public/logo2.png" alt="" class="logo-img">
+            </div>
+            <div class="shop-details">
+                <h1 id="print-shopName"></h1>
+                <p id="print-shopAddress"></p>
+                <p>Phone: <span id="print-shopPhone"></span> | Email: <span id="print-shopEmail"></span></p>
+                <p>GSTIN: <span id="print-gstin"></span></p>
+            </div>
+
+        </div>
+        <div class="bill-invoice-row">
+            <div class="customer-details">
+                <h3>BILL TO:</h3>
+                <p><strong id="print-customerName"></strong></p>
+                <p id="print-customerAddress"></p>
+                <p>Mobile: <span id="print-customerMobile"></span></p>
+            </div>
+            <div class="invoice-title invoice-title-inline">
+                <h3>TAX INVOICE</h3>
+                <p>Invoice No: <strong id="print-invoiceNo"></strong></p>
+                <p>Date: <strong id="print-invoiceDate"></strong></p>
+            </div>
+        </div>
+
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Item Description</th>
+                    <th>Metal/Purity</th>
+                    <th>Gross Wt (g)</th>
+                    <th>Net Wt (g)</th>
+                    <th>Rate (₹/g)</th>
+                    <th>Making (₹)</th>
+                    <th>Total (₹)</th>
+                </tr>
+            </thead>
+            <tbody id="print-itemsTable"></tbody>
+        </table>
+
+        <div class="invoice-footer">
+            <div class="payment-details">
+                <p>Payment Mode: <strong id="print-paymentMode"></strong></p>
+            </div>
+            <div class="invoice-totals">
+                <div class="total-row">
+                    <span>Subtotal:</span>
+                    <span id="print-subtotal"></span>
+                </div>
+                <div class="total-row">
+                    <span>CGST (<span id="print-cgstPercent"></span>%):</span>
+                    <span id="print-cgst"></span>
+                </div>
+                <div class="total-row">
+                    <span>SGST (<span id="print-sgstPercent"></span>%):</span>
+                    <span id="print-sgst"></span>
+                </div>
+                <div class="total-row grand-total">
+                    <span>Grand Total:</span>
+                    <span id="print-grandTotal"></span>
+                </div>
+            </div>
+        </div>
+        <div class="print-buttons no-print">
+            <button class="btn btn-primary" onclick="window.print()">Print Invoice</button>
+            <button class="btn btn-secondary" id="saveInvoiceBtn">Save & New</button>
+            <button class="btn btn-outline" onclick="location.href='records.html'">View Records</button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        checkAuthentication();
+
+        const invoiceForm = document.getElementById('invoiceForm');
+        const itemsContainer = document.getElementById('itemsContainer');
+        const addItemBtn = document.getElementById('addItemBtn');
+        let itemCount = 0;
+        let items = [];
+
+        const settings = getShopSettings();
+
+        // Branch addresses configuration
+        const branchAddresses = {
+            branch1: {
+                name: 'Jharia',
+                address: 'Radha Krishna Mandir Road, Sabji Patti, Jharia – 828111'
+            },
+            branch2: {
+                name: 'Dhanbad',
+                address: 'Sahayogi Nagar, Near Ozone Galleria, Dhanbad – 828127'
+            },
+            branch3: {
+                name: 'Saraidhella',
+                address: 'Hari Om Center, Opp. ICICI Bank, Lohar Kulli, Saraidhella – 826007'
+            }
+        };
+
+        document.getElementById('invoiceDate').valueAsDate = new Date();
+
+        function createItemRow() {
+            itemCount++;
+            const itemRow = document.createElement('div');
+            itemRow.className = 'item-row';
+            itemRow.dataset.itemId = itemCount;
+
+            itemRow.innerHTML = `
+                <div class="item-row-header">
+                    <h4>Item ${itemCount}</h4>
+                    <button type="button" class="btn-remove" onclick="removeItem(${itemCount})">Remove</button>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Item Name *</label>
+                        <input type="text" class="item-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Metal Type *</label>
+                        <select class="item-metal" required>
+                            <option value="">Select Metal</option>
+                            <option value="Gold">Gold</option>
+                            <option value="Silver">Silver</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Purity *</label>
+                        <select class="item-purity" required>
+                            <option value="">Select Purity</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Gross Weight (g) *</label>
+                        <input type="number" class="item-gross-weight" step="0.001" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Net Weight (g) *</label>
+                        <input type="number" class="item-net-weight" step="0.001" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Rate (₹/g) *</label>
+                        <input type="number" class="item-rate" step="0.01" min="0" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Making Charges (₹) *</label>
+                        <input type="number" class="item-making" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Item Total</label>
+                        <input type="text" class="item-total" readonly>
+                    </div>
+                </div>
+            `;
+
+            itemsContainer.appendChild(itemRow);
+
+            const metalSelect = itemRow.querySelector('.item-metal');
+            const puritySelect = itemRow.querySelector('.item-purity');
+            const rateInput = itemRow.querySelector('.item-rate');
+            const netWeightInput = itemRow.querySelector('.item-net-weight');
+            const makingInput = itemRow.querySelector('.item-making');
+
+            metalSelect.addEventListener('change', () => {
+                updatePurityOptions(metalSelect, puritySelect);
+                updateRate(metalSelect, puritySelect, rateInput);
+                updateItemTotal(itemRow);
+            });
+
+            puritySelect.addEventListener('change', () => {
+                updateRate(metalSelect, puritySelect, rateInput);
+                updateItemTotal(itemRow);
+            });
+
+            netWeightInput.addEventListener('input', () => {
+                updateDefaultMaking(netWeightInput, makingInput, rateInput);
+                updateItemTotal(itemRow);
+            });
+
+            itemRow.querySelectorAll('input, select').forEach(input => {
+                input.addEventListener('input', () => updateItemTotal(itemRow));
+            });
+        }
+
+        function updatePurityOptions(metalSelect, puritySelect) {
+            puritySelect.innerHTML = '<option value="">Select Purity</option>';
+
+            const purityOptions = settings.purityOptions || ['24K', '22K', '18K', '999', '925'];
+            const metalType = metalSelect.value;
+
+            purityOptions.forEach(purity => {
+                if (metalType === 'Gold' && (purity.includes('K'))) {
+                    puritySelect.innerHTML += `<option value="${purity}">${purity}</option>`;
+                } else if (metalType === 'Silver' && !purity.includes('K')) {
+                    puritySelect.innerHTML += `<option value="${purity}">${purity}</option>`;
+                }
+            });
+        }
+
+        function updateRate(metalSelect, puritySelect, rateInput) {
+            const metalType = metalSelect.value;
+            let baseRate = 0;
+
+            if (metalType === 'Gold') {
+                baseRate = settings.goldRate || 0;
+            } else if (metalType === 'Silver') {
+                baseRate = settings.silverRate || 0;
+            }
+
+            rateInput.value = baseRate.toFixed(2);
+        }
+
+        function updateDefaultMaking(netWeightInput, makingInput, rateInput) {
+            if (makingInput.value) return;
+
+            const netWeight = parseFloat(netWeightInput.value) || 0;
+            const rate = parseFloat(rateInput.value) || 0;
+            let making = 0;
+
+            if (settings.makingChargeType === 'per_gram') {
+                making = netWeight * (settings.makingChargeValue || 0);
+            } else if (settings.makingChargeType === 'percentage') {
+                making = (netWeight * rate * (settings.makingChargeValue || 0)) / 100;
+            } else if (settings.makingChargeType === 'fixed') {
+                making = settings.makingChargeValue || 0;
+            }
+
+            makingInput.value = making.toFixed(2);
+        }
+
+        function updateItemTotal(itemRow) {
+            const netWeight = parseFloat(itemRow.querySelector('.item-net-weight').value) || 0;
+            const rate = parseFloat(itemRow.querySelector('.item-rate').value) || 0;
+            const making = parseFloat(itemRow.querySelector('.item-making').value) || 0;
+
+            const total = (netWeight * rate) + making;
+            itemRow.querySelector('.item-total').value = '₹' + total.toFixed(2);
+
+            updateInvoiceSummary();
+        }
+
+        function updateInvoiceSummary() {
+            let subtotal = 0;
+
+            document.querySelectorAll('.item-row').forEach(row => {
+                const netWeight = parseFloat(row.querySelector('.item-net-weight').value) || 0;
+                const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+                const making = parseFloat(row.querySelector('.item-making').value) || 0;
+                subtotal += (netWeight * rate) + making;
+            });
+
+            const gstRate = 3; // Fixed 3% GST
+            const cgst = (subtotal * (gstRate / 2)) / 100;
+            const sgst = (subtotal * (gstRate / 2)) / 100;
+            const grandTotal = subtotal + cgst + sgst;
+
+            document.getElementById('subtotalDisplay').textContent = '₹' + subtotal.toFixed(2);
+            document.getElementById('cgstDisplay').textContent = '₹' + cgst.toFixed(2);
+            document.getElementById('sgstDisplay').textContent = '₹' + sgst.toFixed(2);
+            document.getElementById('grandTotalDisplay').textContent = '₹' + grandTotal.toFixed(2);
+        }
+
+        function removeItem(itemId) {
+            const itemRow = document.querySelector(`[data-item-id="${itemId}"]`);
+            if (itemRow) {
+                itemRow.remove();
+                updateInvoiceSummary();
+            }
+        }
+
+        addItemBtn.addEventListener('click', createItemRow);
+
+        invoiceForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            generateInvoice();
+        });
+
+        function generateInvoice() {
+            const itemRows = document.querySelectorAll('.item-row');
+            if (itemRows.length === 0) {
+                alert('Please add at least one item');
+                return;
+            }
+
+            // Get default branch from settings or use branch1 as default
+            const defaultBranch = settings.defaultBranch || 'branch1';
+            const selectedBranch = branchAddresses[defaultBranch];
+
+            const items = [];
+            itemRows.forEach((row, index) => {
+                items.push({
+                    sno: index + 1,
+                    name: row.querySelector('.item-name').value,
+                    metal: row.querySelector('.item-metal').value,
+                    purity: row.querySelector('.item-purity').value,
+                    grossWeight: parseFloat(row.querySelector('.item-gross-weight').value),
+                    netWeight: parseFloat(row.querySelector('.item-net-weight').value),
+                    rate: parseFloat(row.querySelector('.item-rate').value),
+                    making: parseFloat(row.querySelector('.item-making').value)
+                });
+            });
+
+            const invoiceData = {
+                invoiceNo: generateInvoiceNumber(),
+                date: document.getElementById('invoiceDate').value,
+                customerName: document.getElementById('customerName').value,
+                customerMobile: document.getElementById('customerMobile').value,
+                customerAddress: document.getElementById('customerAddress').value,
+                paymentMode: document.getElementById('paymentMode').value,
+                branchName: selectedBranch.name,
+                branchAddress: selectedBranch.address,
+                items: items,
+                subtotal: parseFloat(document.getElementById('subtotalDisplay').textContent.replace('₹', '')),
+                cgst: parseFloat(document.getElementById('cgstDisplay').textContent.replace('₹', '')),
+                sgst: parseFloat(document.getElementById('sgstDisplay').textContent.replace('₹', '')),
+                grandTotal: parseFloat(document.getElementById('grandTotalDisplay').textContent.replace('₹', ''))
+            };
+
+            displayPrintableInvoice(invoiceData);
+        }
+
+        function displayPrintableInvoice(invoiceData) {
+            // Use branch address if available, otherwise use shop address from settings
+            const shopAddress = invoiceData.branchAddress || settings.shopAddress || '';
+            
+            document.getElementById('print-shopName').textContent = settings.shopName || '';
+            document.getElementById('print-shopAddress').textContent = shopAddress;
+            document.getElementById('print-shopPhone').textContent = settings.shopPhone || '';
+            document.getElementById('print-shopEmail').textContent = settings.shopEmail || '';
+            document.getElementById('print-gstin').textContent = settings.gstin || '';
+
+            document.getElementById('print-invoiceNo').textContent = invoiceData.invoiceNo;
+            document.getElementById('print-invoiceDate').textContent = formatDate(invoiceData.date);
+            document.getElementById('print-customerName').textContent = invoiceData.customerName;
+            document.getElementById('print-customerAddress').textContent = invoiceData.customerAddress;
+            document.getElementById('print-customerMobile').textContent = invoiceData.customerMobile;
+            document.getElementById('print-paymentMode').textContent = invoiceData.paymentMode;
+
+            const itemsTableBody = document.getElementById('print-itemsTable');
+            itemsTableBody.innerHTML = '';
+
+            invoiceData.items.forEach(item => {
+                const metalValue = item.netWeight * item.rate;
+                const total = metalValue + item.making;
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.sno}</td>
+                    <td>${item.name}</td>
+                    <td>${item.metal} ${item.purity}</td>
+                    <td>${item.grossWeight.toFixed(3)}</td>
+                    <td>${item.netWeight.toFixed(3)}</td>
+                    <td>${item.rate.toFixed(2)}</td>
+                    <td>${item.making.toFixed(2)}</td>
+                    <td>${total.toFixed(2)}</td>
+                `;
+                itemsTableBody.appendChild(row);
+            });
+
+            const gstRate = 3; // Fixed 3% GST
+            document.getElementById('print-cgstPercent').textContent = (gstRate / 2).toFixed(2);
+            document.getElementById('print-sgstPercent').textContent = (gstRate / 2).toFixed(2);
+            document.getElementById('print-subtotal').textContent = '₹' + invoiceData.subtotal.toFixed(2);
+            document.getElementById('print-cgst').textContent = '₹' + invoiceData.cgst.toFixed(2);
+            document.getElementById('print-sgst').textContent = '₹' + invoiceData.sgst.toFixed(2);
+            document.getElementById('print-grandTotal').textContent = '₹' + invoiceData.grandTotal.toFixed(2);
+
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('printableInvoice').style.display = 'block';
+
+            document.getElementById('saveInvoiceBtn').onclick = () => {
+                saveInvoice(invoiceData);
+                location.reload();
+            };
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+
+        createItemRow();
+    </script>
+</body>
+</html>

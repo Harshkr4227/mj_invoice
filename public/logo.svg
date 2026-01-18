@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <defs>
+    <style>
+      .hexagon-outer { fill: none; stroke: #c9a961; stroke-width: 2.5; }
+      .hexagon-inner { fill: none; stroke: #c9a961; stroke-width: 1.5; }
+      .letter-mj { font-family: "Georgia", serif; font-size: 95px; font-weight: bold; fill: #1a3a52; letter-spacing: -5px; }
+      .brand-name { font-family: "Georgia", serif; font-size: 52px; font-weight: 600; fill: #1a3a52; letter-spacing: 1px; }
+      .subtext { font-family: "Georgia", serif; font-size: 24px; fill: #c9a961; letter-spacing: 3px; font-weight: 500; }
+    </style>
+  </defs>
+  
+  <!-- Outer Hexagon -->
+  <polygon class="hexagon-outer" points="200,50 280,90 310,170 280,250 200,290 120,250 90,170 120,90"/>
+  
+  <!-- Inner Hexagon -->
+  <polygon class="hexagon-inner" points="200,70 270,105 295,170 270,235 200,270 130,235 105,170 130,105"/>
+  
+  <!-- MJ Initials -->
+  <text class="letter-mj" x="200" y="175" text-anchor="middle" dominant-baseline="middle">MJ</text>
+  
+  <!-- Brand Name -->
+  <text class="brand-name" x="200" y="340" text-anchor="middle" dominant-baseline="middle">Mahalaxmi</text>
+  
+  <!-- Subtext -->
+  <text class="subtext" x="200" y="395" text-anchor="middle" dominant-baseline="middle">JEWELLERS</text>
+</svg>

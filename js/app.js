@@ -63,6 +63,12 @@ function deleteInvoiceByNumber(invoiceNo) {
     const updatedInvoices = invoices.filter(inv => inv.invoiceNo !== invoiceNo);
     localStorage.setItem('invoices', JSON.stringify(updatedInvoices));
 }
+// 🔐 Initialize default login credentials (runs once)
+if (!localStorage.getItem('authInitialized')) {
+  localStorage.setItem('username', 'admin');
+  localStorage.setItem('password', 'admin123');
+  localStorage.setItem('authInitialized', 'true');
+}
 
 function checkAuthentication() {
     const isLoggedIn = localStorage.getItem('isLoggedIn');

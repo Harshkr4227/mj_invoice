@@ -7,13 +7,13 @@ function getShopSettings() {
     return {
         shopName: 'Mahalaxmi Jewellers',
         shopEmail: 'info@mahalaxmijewellers.com',
-        gstin: '29AAAAA0000A1Z5',
+        gstin: '20AYXPS1025J1Z9',
         defaultBranch: 'branch1',
-        goldRate: 6500,
-        silverRate: 75,
+        goldRate: 13450,
+        silverRate: 310,
         purityOptions: ['24K', '22K', '18K', '999', '925'],
         makingChargeType: 'per_gram',
-        makingChargeValue: 500,
+        makingChargeValue: 2000,
         gstPercentage: 3
     };
 }

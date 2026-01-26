@@ -111,14 +111,14 @@
 
         <!-- Invoice Header with icon-only logo on left -->
         <div class="invoice-header">
-            <div class="invoice-logo">
-                <img src="public/logo2.png" alt="" class="logo-img">
-            </div>
             <div class="shop-details">
                 <h1 id="print-shopName"></h1>
                 <p id="print-shopAddress"></p>
                 <p>Email: <span id="print-shopEmail"></span></p>
                 <p>GSTIN: <span id="print-gstin"></span></p>
+            </div>
+            <div class="invoice-logo">
+                <img src="public/logo2.png" alt="" class="logo-img">
             </div>
 
         </div>
@@ -155,6 +155,15 @@
             <div class="payment-details">
                 <p>Payment Mode: <strong id="print-paymentMode"></strong></p>
             </div>
+                 <div class="invoice-signature">
+            <div class="signature-section">
+                <div class="signature-line"></div>
+                <p class="signature-name">
+                    <strong id="print-shopName-sign"></strong>
+                </p>
+                <p class="signature-label">Authorized Signature</p>
+            </div>
+        </div>
             <div class="invoice-totals">
                 <div class="total-row">
                     <span>Subtotal:</span>
@@ -283,34 +292,40 @@
             const makingInput = itemRow.querySelector('.item-making');
 
             metalSelect.addEventListener('change', () => {
-                updatePurityOptions(metalSelect, puritySelect);
-                updateRate(metalSelect, null, rateInput);
+            updatePurityOptions(metalSelect, puritySelect);
+                updateRate(metalSelect, puritySelect, rateInput);
                 updateItemTotal(itemRow);
             });
 
+    // ✅ Net weight change
             netWeightInput.addEventListener('input', () => {
                 updateDefaultMaking(netWeightInput, makingInput, rateInput);
                 updateItemTotal(itemRow);
             });
 
-            itemRow.querySelectorAll('input, select').forEach(input => {
-                input.addEventListener('input', () => updateItemTotal(itemRow));
+    // ✅ Metal change
+            metalSelect.addEventListener('change', () => {
+                updateRate(metalSelect, puritySelect, rateInput);
+                updateDefaultMaking(netWeightInput, makingInput, rateInput);
+                updateItemTotal(itemRow);
             });
+
+    // ✅ Manual making override
+            makingInput.addEventListener('input', () => {
+                updateItemTotal(itemRow);
+            });
+
+            itemsContainer.appendChild(itemRow);
         }
 
         function updatePurityOptions(metalSelect, puritySelect) {
-            puritySelect.innerHTML = '<option value="">Select Purity</option>';
-
-            const purityOptions = settings.purityOptions || ['24K', '22K', '18K', '999', '925'];
-            const metalType = metalSelect.value;
-
-            purityOptions.forEach(purity => {
-                if (metalType === 'Gold' && (purity.includes('K'))) {
-                    puritySelect.innerHTML += `<option value="${purity}">${purity}</option>`;
-                } else if (metalType === 'Silver' && !purity.includes('K')) {
-                    puritySelect.innerHTML += `<option value="${purity}">${purity}</option>`;
-                }
-            });
+            puritySelect.innerHTML = `
+                <option value="">Select Purity</option>
+                <option value="24K">24K</option>
+                <option value="22K">22K</option>
+                <option value="18K">18K</option>
+                <option value="999">999</option>
+                `;
         }
 
         function updateRate(metalSelect, rateInput) {
@@ -323,22 +338,23 @@
             }
         }   
         function updateDefaultMaking(netWeightInput, makingInput, rateInput) {
-            if (makingInput.value) return;
-
             const netWeight = parseFloat(netWeightInput.value) || 0;
             const rate = parseFloat(rateInput.value) || 0;
+
             let making = 0;
 
             if (settings.makingChargeType === 'per_gram') {
                 making = netWeight * (settings.makingChargeValue || 0);
-            } else if (settings.makingChargeType === 'percentage') {
-                making = (netWeight * rate * (settings.makingChargeValue || 0)) / 100;
+            } else if (settings.makingChargeType === 'percentage') {    
+                const metalValue = netWeight * rate;
+                making = (metalValue * (settings.makingChargeValue || 0)) / 100;
             } else if (settings.makingChargeType === 'fixed') {
                 making = settings.makingChargeValue || 0;
             }
 
             makingInput.value = making.toFixed(2);
         }
+
 
         function updateItemTotal(itemRow) {
             const netWeight = parseFloat(itemRow.querySelector('.item-net-weight').value) || 0;
@@ -369,7 +385,7 @@
             const advance = parseFloat(document.getElementById('advanceAmount')?.value) || 0;
             const returned = parseFloat(document.getElementById('returnAmount')?.value) || 0;
 
-            const netPayable = grandTotal - advance + returned;
+            const netPayable = grandTotal - advance - returned;
 
             document.getElementById('subtotalDisplay').textContent = '₹' + subtotal.toFixed(2);
             document.getElementById('cgstDisplay').textContent = '₹' + cgst.toFixed(2);
@@ -457,6 +473,7 @@
             document.getElementById('print-customerAddress').textContent = invoiceData.customerAddress;
             document.getElementById('print-customerMobile').textContent = invoiceData.customerMobile;
             document.getElementById('print-paymentMode').textContent = invoiceData.paymentMode;
+            document.getElementById('print-shopName-sign').textContent = settings.shopName || '';
 
             const itemsTableBody = document.getElementById('print-itemsTable');
             itemsTableBody.innerHTML = '';

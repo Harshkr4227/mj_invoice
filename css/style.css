@@ -488,8 +488,8 @@ body {
 
 .invoice-logo {
     flex-shrink: 0;
-    width: 80px;
-    height: 80px;
+    width: 140px;
+    height: 140px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -627,19 +627,34 @@ body {
 }
 
 .invoice-signature {
-    display: flex;
-    justify-content: space-between;
-    margin: 40px 0 30px;
-    position: relative;
-    z-index: 1;
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    z-index: 2;
 }
 
 .signature-section {
-    text-align: center;
-    padding-top: 40px;
-    border-top: 1px solid var(--text-color);
-    min-width: 200px;
+    text-align: left;
+    min-width: 220px;
 }
+
+.signature-line {
+    width: 220px;
+    border-top: 1px solid #000;
+    margin-bottom: 6px;
+}
+
+.signature-name {
+    font-weight: 600;
+    margin: 0;
+}
+
+.signature-label {
+    font-size: 12px;
+    margin-top: 2px;
+    color: #555;
+}
+
 
 .invoice-notes {
     margin-top: 20px;
@@ -906,8 +921,8 @@ body {
     }
 
     .invoice-logo {
-        width: 80px !important;
-        height: 80px !important;
+        width: 140px !important;
+        height: auto !important;
         flex-shrink: 0 !important;
         background: white !important;
     }

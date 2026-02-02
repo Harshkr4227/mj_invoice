@@ -11,7 +11,7 @@ function getShopSettings() {
         defaultBranch: 'branch1',
         goldRate: 13450,
         silverRate: 310,
-        purityOptions: ['24K', '22K', '18K', '999', '925'],
+        purityOptions: ['24K', '22K', '18K', '14K', '999'],
         makingChargeType: 'per_gram',
         makingChargeValue: 2000,
         gstPercentage: 3

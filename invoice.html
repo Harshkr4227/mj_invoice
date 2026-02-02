@@ -260,7 +260,7 @@
                     </div>
                     <div class="form-group">
                         <label>Purity *</label>
-                        <select class="item-purity" required>
+                        <select class="item-purity" >
                             <option value="">Select Purity</option>
                         </select>
                     </div>
@@ -319,13 +319,26 @@
         }
 
         function updatePurityOptions(metalSelect, puritySelect) {
-            puritySelect.innerHTML = `
-                <option value="">Select Purity</option>
-                <option value="24K">24K</option>
-                <option value="22K">22K</option>
-                <option value="18K">18K</option>
-                <option value="999">999</option>
+            puritySelect.innerHTML = `<option value="">Select Purity</option>`;
+
+            if (metalSelect.value === 'Gold') {
+                puritySelect.required = true;
+
+                puritySelect.innerHTML += `
+                    <option value="24K">24K</option>
+                    <option value="22K">22K</option>
+                    <option value="18K">18K</option>
+                    <option value="14K">14K</option>
                 `;
+            } else if (metalSelect.value === 'Silver') {
+                puritySelect.required = false;
+
+        // Optional: auto-set silver purity
+                puritySelect.innerHTML += `<option value="999">999</option>`;
+                puritySelect.value = '999';
+            } else {
+                puritySelect.required = false;
+            }
         }
 
         function updateRate(metalSelect, rateInput) {

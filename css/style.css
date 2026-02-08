@@ -871,7 +871,7 @@ body {
   /* PAGE SETUP */
   /* ========================= */
   @page {
-    size: A4 portrait;
+    size: Letter portrait;
     margin: 10mm;
   }
 
@@ -880,7 +880,7 @@ body {
     padding: 0;
     background: white;
     color: #000;
-    font-size: 12px; /* SAME on PC & Android */
+    font-size: 13px; /* SAME on PC & Android */
     line-height: 1.4;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
@@ -1030,12 +1030,29 @@ body {
   /* WATERMARK */
   /* ========================= */
   .invoice-watermark {
-    opacity: 0.05;
+    position: absolute;        /* 🔥 NOT fixed */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;               /* BELOW content */
+    opacity: 0.15;            /* Safe print opacity */
+    pointer-events: none;
   }
 
   .watermark-logo {
-    width: 220px;
-    height: 220px;
+    width: 260px;
+    height: 260px;
+    object-fit: contain;
+    opacity: 1;
+
+    /* FORCE PRINT */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   /* ========================= */

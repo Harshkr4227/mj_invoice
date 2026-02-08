@@ -1025,11 +1025,12 @@ body {
   }
 
   /* MAIN CONTAINER */
-  .printable-invoice {
-    width: 100%;
-    padding: 6mm;
-    font-size: 30px;
-  }
+    .printable-invoice {
+        width: 100%;
+        padding: 6mm;
+        font-size: 12px;
+        line-height: 1.25;
+    }
 
   /* HEADER */
   .invoice-header {

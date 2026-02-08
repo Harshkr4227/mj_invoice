@@ -955,7 +955,7 @@ body {
 
   .customer-details {
     padding: 10px;
-    background: #f5f5f5;
+    background: transparent;
   }
 
   .customer-details h3 {

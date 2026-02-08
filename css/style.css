@@ -954,8 +954,8 @@ body {
   }
 
   .customer-details {
-    padding: 10px;
-    background: transparent;
+    background: transparent !important;
+    padding: 10px 0;
   }
 
   .customer-details h3 {

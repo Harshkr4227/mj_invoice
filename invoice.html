@@ -154,52 +154,64 @@
         </table>
 
         <div class="invoice-footer">
+
+          <!-- LEFT COLUMN -->
+          <div class="footer-left">
             <div class="payment-details">
-                <p>Payment Mode: <strong id="print-paymentMode"></strong></p>
+              <p>Payment Mode: <strong id="print-paymentMode"></strong></p>
             </div>
-                 <div class="invoice-signature">
-            <div class="signature-section">
-                <div class="signature-line"></div>
-                <p class="signature-name">
-                    <strong id="print-shopName-sign"></strong>
-                </p>
-                <p class="signature-label">Authorized Signature</p>
+        
+            <div class="invoice-signature">
+              <div class="signature-section">
+        <div class="signature-line"></div>
+        <p class="signature-name">
+          <strong id="print-shopName-sign"></strong>
+        </p>
+        <p class="signature-label">Authorized Signature</p>
+              </div>
             </div>
+          </div>
+
+          <!-- RIGHT COLUMN -->
+          <div class="invoice-totals">
+            <div class="total-row">
+              <span>Subtotal:</span>
+              <span id="print-subtotal"></span>
+            </div>
+        
+            <div class="total-row">
+              <span>CGST (<span id="print-cgstPercent"></span>%):</span>
+              <span id="print-cgst"></span>
+            </div>
+        
+            <div class="total-row">
+              <span>SGST (<span id="print-sgstPercent"></span>%):</span>
+              <span id="print-sgst"></span>
+            </div>
+        
+            <div class="total-row grand-total">
+              <span>Grand Total:</span>
+              <span id="print-grandTotal"></span>
+            </div>
+        
+            <div class="total-row">
+              <span>Advance Paid:</span>
+              <span id="print-advance"></span>
+            </div>
+        
+            <div class="total-row">
+              <span>Return Amount:</span>
+              <span id="print-return"></span>
+            </div>
+        
+            <div class="total-row grand-total">
+              <span>Net Payable:</span>
+              <span id="print-netPayable"></span>
+            </div>
+          </div>
+      
         </div>
-            <div class="invoice-totals">
-                <div class="total-row">
-                    <span>Subtotal:</span>
-                    <span id="print-subtotal"></span>
-                </div>
-                <div class="total-row">
-                    <span>CGST (<span id="print-cgstPercent"></span>%):</span>
-                    <span id="print-cgst"></span>
-                </div>
-                <div class="total-row">
-                    <span>SGST (<span id="print-sgstPercent"></span>%):</span>
-                    <span id="print-sgst"></span>
-                </div>
-                <div class="total-row grand-total">
-                    <span>Grand Total:</span>
-                    <span id="print-grandTotal"></span>
-                </div>
-                <div class="total-row">
-                    <span>Advance Paid:</span>
-                    <span id="print-advance"></span>
-                </div>
 
-                <div class="total-row">
-                    <span>Return Amount:</span>
-                    <span id="print-return"></span>
-                </div>
-
-                <div class="total-row grand-total">
-                    <span>Net Payable:</span>
-                    <span id="print-netPayable"></span>
-                </div>
-
-            </div>
-        </div>
         <div class="print-buttons no-print">
             <button class="btn btn-primary" onclick="window.print()">Print Invoice</button>
             <button class="btn btn-secondary" id="saveInvoiceBtn">Save & New</button>

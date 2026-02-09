@@ -960,6 +960,7 @@ body {
 
   .customer-details h3 {
     font-size: 14px;
+    margin-top: 20px;
     margin-bottom: 6px;
   }
 
@@ -969,7 +970,7 @@ body {
   .invoice-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
   }
 
   .invoice-table th,

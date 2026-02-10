@@ -307,10 +307,16 @@
 
             metalSelect.addEventListener('change', () => {
             updatePurityOptions(metalSelect, puritySelect);
-                updateRate(metalSelect, rateInput);
+                updateRate(metalSelect, puritySelect, rateInput);
                 updateDefaultMaking(netWeightInput, makingInput, rateInput);
                 updateItemTotal(itemRow);
             });
+
+            puritySelect.addEventListener('change', () => {
+            updateRate(metalSelect, puritySelect, rateInput);
+            updateDefaultMaking(netWeightInput, makingInput, rateInput);
+            updateItemTotal(itemRow);
+        });
 
     // ✅ Net weight change
             netWeightInput.addEventListener('input', () => {
@@ -319,11 +325,6 @@
             });
 
     // ✅ Metal change
-            metalSelect.addEventListener('change', () => {
-                updateRate(metalSelect, rateInput);
-                updateDefaultMaking(netWeightInput, makingInput, rateInput);
-                updateItemTotal(itemRow);
-            });
             rateInput.addEventListener('input', () => {
                     updateDefaultMaking(netWeightInput, makingInput, rateInput);
                     updateItemTotal(itemRow);
@@ -360,9 +361,11 @@
             }
         }
 
-        function updateRate(metalSelect, rateInput) {
+        function updateRate(metalSelect, puritySelect, rateInput) {
+            const settings = getShopSettings();
             if (metalSelect.value === 'Gold') {
-                rateInput.value = settings.goldRate.toFixed(2);
+                const purity = puritySelect.value;
+                rateInput.value = (settings.goldRates?.[purity] || 0).toFixed(2);
             } else if (metalSelect.value === 'Silver') {
                 rateInput.value = settings.silverRate.toFixed(2);
             } else {

@@ -9,7 +9,12 @@ function getShopSettings() {
         shopEmail: 'info@mahalaxmijewellers.com',
         gstin: '20AYXPS1025J1Z9',
         defaultBranch: 'branch1',
-        goldRate: 13450,
+        goldRates: {
+            "24K": 13450,
+            "22K": 12300,
+            "18K": 9800,
+            "14K": 7600
+        },
         silverRate: 310,
         purityOptions: ['24K', '22K', '18K', '14K', '999'],
         makingChargeType: 'per_gram',

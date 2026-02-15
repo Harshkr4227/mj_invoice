@@ -880,7 +880,7 @@ body {
     padding: 0;
     background: white;
     color: #000;
-    font-size: 13.5px; /* SAME on PC & Android */
+    font-size: 14px; /* SAME on PC & Android */
     line-height: 1.45;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
@@ -928,7 +928,7 @@ body {
   }
 
   .shop-details h1 {
-    font-size: 20px;
+    font-size: 21px;
     margin-bottom: 6px;
   }
 
@@ -955,11 +955,12 @@ body {
 
   .customer-details {
     background: transparent !important;
+    font-size: 14px;
     padding: 10px 0;
   }
 
   .customer-details h3 {
-    font-size: 14px;
+    font-size: 15.5px;
     margin-top: 20px;
     margin-bottom: 6px;
   }
@@ -1005,7 +1006,7 @@ body {
 
   .invoice-totals {
     max-width: 300px;
-    font-size: 12px;
+    font-size: 12.5px;
   }
 
   .total-row {
@@ -1013,7 +1014,7 @@ body {
   }
 
   .total-row.grand-total {
-    font-size: 16px;
+    font-size: 16.5px;
     font-weight: 700;
     margin-top: 18px;
   }

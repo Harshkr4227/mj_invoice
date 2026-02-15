@@ -146,7 +146,7 @@
                     <th>Metal/Purity</th>
                     <th>Net Wt (g)</th>
                     <th>Rate (₹/g)</th>
-                    <th>Making (₹)</th>
+                    <th>Making (%)</th>
                     <th>Total (₹)</th>
                 </tr>
             </thead>
@@ -487,6 +487,8 @@
                     netWeight: parseFloat(row.querySelector('.item-net-weight').value),
                     rate: parseFloat(row.querySelector('.item-rate').value),
                     making: parseFloat(row.querySelector('.item-making').value),
+                    makingPercent: settings.makingChargeType === 'percentage'
+                     ?settings.makingChargeValue : null
                 });
             });
 
@@ -545,7 +547,13 @@
                     <td>${item.metal} ${item.purity}</td>
                     <td>${item.netWeight.toFixed(3)}</td>
                     <td>${item.rate.toFixed(2)}</td>
-                    <td>${item.making.toFixed(2)}</td>
+                    <td>
+                      ${
+                        item.makingPercent
+                          ? `${item.makingPercent}% `
+                          : `₹${item.making.toFixed(2)}`
+                      }
+                    </td>
                     <td>${total.toFixed(2)}</td>
                 `;
                 itemsTableBody.appendChild(row);

@@ -126,17 +126,22 @@
         </div>
         <div class="bill-invoice-row">
             <div class="customer-details">
-                <h3>BILL TO:</h3>
-                <p><strong id="print-customerName"></strong></p>
-                <p id="print-customerAddress"></p>
-                <p>Mobile: <span id="print-customerMobile"></span></p>
-            </div>
-            <div class="invoice-title invoice-title-inline">
+
+        <!-- 🔥 NEW POSITION -->
+            <div class="invoice-title-inline">
                 <h3>TAX INVOICE</h3>
                 <p>Invoice No: <strong id="print-invoiceNo"></strong></p>
                 <p>Date: <strong id="print-invoiceDate"></strong></p>
             </div>
+
+            <h3>BILL TO</h3>
+            <p><strong id="print-customerName"></strong></p>
+            <p id="print-customerAddress"></p>
+            <p>Mobile: <span id="print-customerMobile"></span></p>
+
         </div>
+    </div>
+
 
         <table class="invoice-table">
             <thead>
@@ -161,16 +166,15 @@
               <p>Payment Mode: <strong id="print-paymentMode"></strong></p>
             </div>
         
-            <div class="invoice-signature">
-              <div class="signature-section">
-        <div class="signature-line"></div>
-        <p class="signature-name">
-          <strong id="print-shopName-sign"></strong>
-        </p>
-        <p class="signature-label">Authorized Signature</p>
-              </div>
+        <div class="invoice-signature">
+            <div class="signature-section">
+                <div class="signature-line"></div>
+                <p class="signature-name">
+                <strong id="print-shopName-sign"></strong></p>
+                <p class="signature-label">Authorized Signature</p>
+                </div>
             </div>
-          </div>
+        </div>
 
           <!-- RIGHT COLUMN -->
           <div class="invoice-totals">
@@ -287,9 +291,10 @@
                         <input type="number" class="item-rate" step="0.01" min="0" required>
                     </div>
                     <div class="form-group">
-                        <label>Making Charges (₹) *</label>
-                        <input type="number" class="item-making" step="0.01" min="0" required>
+                        <label>Making (%) *</label>
+                        <input type="number" class="item-making-percent" step="0.01" min="0" required>
                     </div>
+                    <input type="hidden" class="item-making">
                     <div class="form-group">
                         <label>Item Total</label>
                         <input type="text" class="item-total" readonly>
@@ -304,38 +309,43 @@
             const rateInput = itemRow.querySelector('.item-rate');
             const netWeightInput = itemRow.querySelector('.item-net-weight');
             const makingInput = itemRow.querySelector('.item-making');
+            const makingPercentInput = itemRow.querySelector('.item-making-percent');
+
+// set default from admin
+            makingPercentInput.value = settings.makingChargeValue || 0;
+
 
             metalSelect.addEventListener('change', () => {
             updatePurityOptions(metalSelect, puritySelect);
                 updateRate(metalSelect, puritySelect, rateInput);
-                updateDefaultMaking(netWeightInput, makingInput, rateInput);
+                updateDefaultMaking(netWeightInput, makingInput, rateInput, makingPercentInput);
                 updateItemTotal(itemRow);
             });
 
             puritySelect.addEventListener('change', () => {
             updateRate(metalSelect, puritySelect, rateInput);
-            updateDefaultMaking(netWeightInput, makingInput, rateInput);
+            updateDefaultMaking(netWeightInput, makingInput, rateInput, makingPercentInput);
             updateItemTotal(itemRow);
         });
 
     // ✅ Net weight change
             netWeightInput.addEventListener('input', () => {
-                updateDefaultMaking(netWeightInput, makingInput, rateInput);
+                updateDefaultMaking(netWeightInput, makingInput, rateInput, makingPercentInput);
                 updateItemTotal(itemRow);
             });
 
     // ✅ Metal change
             rateInput.addEventListener('input', () => {
-                    updateDefaultMaking(netWeightInput, makingInput, rateInput);
+                    updateDefaultMaking(netWeightInput, makingInput, rateInput, makingPercentInput);
                     updateItemTotal(itemRow);
             });
 
-    // ✅ Manual making override
-            makingInput.addEventListener('input', () => {
+            makingPercentInput.addEventListener('input', () => {
+                updateDefaultMaking(netWeightInput, makingInput, rateInput, makingPercentInput);
                 updateItemTotal(itemRow);
             });
-
-            itemsContainer.appendChild(itemRow);
+            updateDefaultMaking(netWeightInput, makingInput, rateInput, makingPercentInput);
+            updateItemTotal(itemRow);
         }
 
         function updatePurityOptions(metalSelect, puritySelect) {
@@ -372,44 +382,46 @@
                 rateInput.value = '';
             }
         }   
-        function updateDefaultMaking(netWeightInput, makingInput, rateInput) {
+
+        function calculateMakingAmount(weight, rate, percent, gstPercent) {
+            const metalValue = weight * rate;
+            const makingValue = (metalValue * percent) / 100;
+            const gstOnMaking = (makingValue * gstPercent) / 100;
+            return makingValue + gstOnMaking;
+        }
+
+        function updateDefaultMaking(netWeightInput, makingInput, rateInput, percentInput) {
+            const settings = getShopSettings();
+
             const netWeight = parseFloat(netWeightInput.value) || 0;
             const rate = parseFloat(rateInput.value) || 0;
+            const percent = parseFloat(percentInput?.value) || settings.makingChargeValue || 0;
 
             let making = 0;
 
+    // ✅ PER GRAM
             if (settings.makingChargeType === 'per_gram') {
                 making = netWeight * (settings.makingChargeValue || 0);
-            } else if (settings.makingChargeType === 'percentage') {    
-                const weight = netWeight;
-                const ratePerGram = rate;
+            }
 
-                const makingPercent = settings.makingChargeValue || 0;
+    // ✅ PERCENTAGE (JEWELLERY STANDARD — CLEAN)
+            else if (settings.makingChargeType === 'percentage') {
+                const metalValue = netWeight * rate;
+                const makingValue = (metalValue * percent) / 100;
+
                 const gstPercent = settings.gstPercentage || 0;
 
-    // Base metal value
-                const metalValue = ratePerGram * weight;
+                making = makingValue;
+            }
 
-    // Increase rate by making %
-                const increasedRate = ratePerGram + (ratePerGram * makingPercent / 100);
-
-    // Total value including making
-                const valueWithMaking = increasedRate * weight;
-
-    // Making charges only (excluding metal value)
-                const makingCharges = valueWithMaking - metalValue;
-
-    // GST on making charges
-                const gstOnMaking = (makingCharges * gstPercent) / 100;
-
-    // Final making amount
-                making = makingCharges + gstOnMaking;
-            } else if (settings.makingChargeType === 'fixed') {
+    // ✅ FIXED
+            else if (settings.makingChargeType === 'fixed') {
                 making = settings.makingChargeValue || 0;
             }
 
             makingInput.value = making.toFixed(2);
         }
+
 
 
         function updateItemTotal(itemRow) {
@@ -487,8 +499,7 @@
                     netWeight: parseFloat(row.querySelector('.item-net-weight').value),
                     rate: parseFloat(row.querySelector('.item-rate').value),
                     making: parseFloat(row.querySelector('.item-making').value),
-                    makingPercent: settings.makingChargeType === 'percentage'
-                     ?settings.makingChargeValue : null
+                    makingPercent: parseFloat(row.querySelector('.item-making-percent').value),
                 });
             });
 
@@ -548,11 +559,7 @@
                     <td>${item.netWeight.toFixed(3)}</td>
                     <td>${item.rate.toFixed(2)}</td>
                     <td>
-                      ${
-                        item.makingPercent
-                          ? `${item.makingPercent}% `
-                          : `₹${item.making.toFixed(2)}`
-                      }
+                      ${item.makingPercent}%
                     </td>
                     <td>${total.toFixed(2)}</td>
                 `;
@@ -598,6 +605,7 @@
         if (returnInput) {
             returnInput.addEventListener('input', updateInvoiceSummary);
         }
+
     </script>
 </body>
 </html>

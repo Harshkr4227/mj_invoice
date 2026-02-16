@@ -543,16 +543,13 @@ body {
 }
 /* Bill To + Tax Invoice row */
 .bill-invoice-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 30px;
-    margin-bottom: 30px;
+    display: block;
+    margin-bottom: 25px;
 }
 
 .invoice-title-inline {
-    text-align: right;
-    min-width: 220px;
+    text-align: left;
+    margin-bottom: 8px;
 }
 
 .customer-details h3 {
@@ -633,6 +630,7 @@ body {
 
 .signature-section {
     text-align: left;
+    flex : 1;
     min-width: 220px;
 }
 
@@ -918,7 +916,7 @@ body {
     gap: 15px;
     border-bottom: 2px solid #000;
     padding-bottom: 10px;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     page-break-inside: avoid;
   }
 
@@ -946,22 +944,21 @@ body {
   /* BILL TO + TAX INVOICE */
   /* ========================= */
   .bill-invoice-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    display: block;              /* ✅ stack vertically */
     margin-bottom: 15px;
     page-break-inside: avoid;
-  }
+}
+
 
   .customer-details {
     background: transparent !important;
-    font-size: 14px;
+    font-size: 16px;
     padding: 10px 0;
   }
 
   .customer-details h3 {
     font-size: 15.5px;
-    margin-top: 20px;
+    margin-top: 10px;
     margin-bottom: 6px;
   }
 
@@ -992,17 +989,40 @@ body {
   /* FOOTER TOTALS */
   /* ========================= */
    .invoice-footer {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    align-items: start;
-    margin-top: 40px;
-    page-break-inside: avoid;
-  }
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 60px;
+  align-items: stretch;   /* 🔥 critical */
+  margin-top: 40px;
+  page-break-inside: avoid;
+}
+
+
 
   .payment-details {
-    font-size: 11.5px;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;  /* 🔥 MAGIC LINE */
+  min-height: 100%;
+}
+
+
+.invoice-signature {
+  position: static;
+  margin-top: 0;
+}
+
+
+.signature-section {
+  text-align: left;
+  min-width: 0;           /* 🔥 prevents push */
+}
+
+.signature-line {
+  width: 220px;
+  border-top: 1px solid #000;
+  margin: 18px 0 6px 0;   /* 🔥 left = 0 */
+}
 
   .invoice-totals {
     max-width: 300px;
@@ -1020,38 +1040,24 @@ body {
   }
 
   /* ========================= */
-  /* SIGNATURE */
-  /* ========================= */
-    .invoice-signature {
-    margin-top: 25px;
-    page-break-inside: avoid;
-  }
-
-  .signature-section {
-    text-align: left;
-  }
-
-  /* ========================= */
   /* WATERMARK */
   /* ========================= */
-  .invoice-watermark {
-    position: absolute;        /* 🔥 NOT fixed */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;               /* BELOW content */
-    opacity: 0.15;            /* Safe print opacity */
-    pointer-events: none;
-  }
+    .invoice-watermark {
+        position: absolute;
+        inset: 0;                 /* ✅ replaces top/left */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 0;               /* keep behind */
+        opacity: 0.15;
+        pointer-events: none;
+        transform: none;          /* 🔥 VERY IMPORTANT */
+    }
+
 
   .watermark-logo {
-    width: 260px;
-    height: 260px;
+    width: 320px;
+    height: 320px;
     object-fit: contain;
     opacity: 1;
 

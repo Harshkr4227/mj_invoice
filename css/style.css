@@ -560,6 +560,7 @@ body {
 .invoice-table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
     margin-bottom: 30px;
     position: relative;
     z-index: 2;
@@ -878,6 +879,7 @@ body {
     padding: 0;
     background: white;
     color: #000;
+    zoom: 100%;
     font-size: 14px; /* SAME on PC & Android */
     line-height: 1.45;
     -webkit-print-color-adjust: exact;
@@ -899,6 +901,7 @@ body {
   /* MAIN INVOICE CONTAINER */
   /* ========================= */
   .printable-invoice {
+    width: 100%;
     max-width: 100%;
     margin: 0 auto;
     padding: 0;
@@ -990,7 +993,7 @@ body {
   /* ========================= */
    .invoice-footer {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr 320px;
   column-gap: 60px;
   align-items: stretch;   /* 🔥 critical */
   margin-top: 40px;

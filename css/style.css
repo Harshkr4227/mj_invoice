@@ -1254,7 +1254,7 @@ body {
 
 .printable-invoice::before {
     content: "";
-    position: fixed;              /* ⭐ KEY CHANGE */
+    position: absolute;              /* ⭐ KEY CHANGE */
     top: 10mm;
     bottom: 10mm;
     left: 10mm;
@@ -1268,7 +1268,7 @@ body {
 
   .printable-invoice::after {
     content: "";
-    position: fixed;              /* ⭐ KEY CHANGE */
+    position: absolute;              /* ⭐ KEY CHANGE */
     top: 11.5mm;
     bottom: 11.5mm;
     left: 11.5mm;
@@ -1470,7 +1470,7 @@ body {
   }
     /* Cream background must survive print */
     .printable-invoice {
-        padding: 0 !important;        /* page margins handled by @page */
+        padding: 50px 40px !important;        /* page margins handled by @page */
         max-width: 100% !important;
         background: #f7efe3 !important;
         background-color: #f7efe3 !important;
@@ -1485,6 +1485,7 @@ body {
     /* Force-print the double border */
     .printable-invoice::before,
     .printable-invoice::after {
+        position: absolute; 
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
@@ -1528,4 +1529,3 @@ body {
     transform: none !important;
 }
 }
-

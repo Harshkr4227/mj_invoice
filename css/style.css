@@ -435,38 +435,6 @@ body {
     border: none;
 }
 
-.printable-invoice {
-    background: #f7efe3;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 40px;
-    position: relative;
-    z-index: 1;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-
-    background-image:
-      radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
-    background-size: 4px 4px;
-}
-
-.printable-invoice::before {
-    content: "";
-    position: absolute;
-    inset: 10px;
-    border: 2px solid #c9a55c; /* gold */
-    pointer-events: none;
-    z-index: 2;
-}
-
-.printable-invoice::after {
-    content: "";
-    position: absolute;
-    inset: 18px;
-    border: 1px solid #e2c98b;
-    pointer-events: none;
-    z-index: 2;
-}
 .invoice-watermark {
     position: fixed;
     top: 50%;
@@ -539,16 +507,6 @@ body {
     color: var(--text-color);
 }
 
-.invoice-title {
-    text-align: right;
-    flex-shrink: 0;
-}
-
-.invoice-title h2 {
-    color: var(--primary-color);
-    margin-bottom: 10px;
-}
-
 .customer-details {
     background: var(--bg-color);
     padding: 20px;
@@ -558,9 +516,11 @@ body {
     z-index: 5;
 }
 .customer-details h3 {
+    color: var(--primary-color);
     margin-top: 10px;
     position: relative;
     z-index: 5;
+    margin-bottom: 10px;
 }
 /* Bill To + Tax Invoice row */
 .bill-invoice-row {
@@ -580,41 +540,6 @@ body {
     margin-right: auto;
 }
 /* ===== ULTRA REALISTIC TAX INVOICE STRIP ===== */
-
-.invoice-title-inline h3 {
-    display: block !important;              /* ⭐ FULL WIDTH */
-    width: 100%;
-    max-width: 720px;                       /* aligns with table */
-    margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-
-    /* 🎨 REAL JEWELLERY GRADIENT */
-    background: linear-gradient(
-        90deg,
-        #4b2e23 0%,
-        #6b4634 25%,
-        #8a5c3f 50%,
-        #6b4634 75%,
-        #4b2e23 100%
-    ) !important;
-
-    color: #f4ead7 !important; /* luxury cream text */
-    padding: 10px 0 !important;
-    font-size: 1rem !important;
-    font-weight: 700 !important;
-    letter-spacing: 3px !important;
-    text-transform: uppercase !important;
-    border-radius: 3px;
-    border: 1px solid #c9a55c !important;
-
-    box-shadow:
-        0 2px 8px rgba(62,39,35,0.25),
-        inset 0 1px 0 rgba(255,255,255,0.12);
-
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-}
 
 /* ⭐ LEFT FADE */
 .invoice-title-inline h3::before {
@@ -650,11 +575,6 @@ body {
         rgba(247,239,227,0.55) 55%,
         rgba(247,239,227,0.95) 100%
     );
-}
-
-.customer-details h3 {
-    color: var(--primary-color);
-    margin-bottom: 10px;
 }
 
 .invoice-table {
@@ -752,20 +672,6 @@ body {
     color: #555;
 }
 
-
-.invoice-notes {
-    margin-top: 20px;
-    padding: 15px;
-    background: var(--bg-color);
-    border-radius: 6px;
-    font-size: 0.9rem;
-    position: relative;
-    z-index: 1;
-}
-
-.invoice-notes p {
-    margin: 5px 0;
-}
 
 .print-buttons {
     display: flex;
@@ -1049,11 +955,6 @@ body {
     margin: 3px 0;
   }
 
-  .invoice-title h2 {
-    font-size: 18px;
-    margin-bottom: 5px;
-  }
-
   /* ========================= */
   /* BILL TO + TAX INVOICE */
   /* ========================= */
@@ -1216,7 +1117,12 @@ body {
 /* Scoped to .printable-invoice so nothing else is affected */
 .printable-invoice {
     position: relative;
+    --frame-outer-inset: 12px;
+    --frame-inner-inset: 16px;
+    --corner-inset: var(--frame-outer-inset);
+    --corner-size: 90px;
     background-color: var(--cream-paper) !important;
+    margin: 0 auto;
     /* Subtle linen-weave texture: layered micro-gradients */
     background-image:
         /* Very faint vertical threads */
@@ -1243,9 +1149,35 @@ body {
     padding: 64px 50px !important;
     max-width: 900px !important;
     box-shadow: 0 4px 32px rgba(62, 39, 35, 0.12) !important;
+    z-index: 1;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
 }
+
+.corner-art {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.corner {
+    width: var(--corner-size);
+    height: var(--corner-size);
+    position: absolute;
+    display: block;
+    object-fit: contain;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    transform-origin: center;
+}
+
+.corner-tl { top: var(--corner-inset); left: var(--corner-inset); transform: scaleX(-1); }
+.corner-tr { top: var(--corner-inset); right: var(--corner-inset); }
+.corner-bl { bottom: var(--corner-inset); left: var(--corner-inset); transform: scale(-1); }
+.corner-br { bottom: var(--corner-inset); right: var(--corner-inset); transform: scaleY(-1); }
 
 /* ─── DOUBLE GOLDEN BORDER FRAME ─── */
 /* ::before = outer rich-gold, ::after = inner light-gold         */
@@ -1255,10 +1187,10 @@ body {
 .printable-invoice::before {
     content: "";
     position: absolute;              /* ⭐ KEY CHANGE */
-    top: 10mm;
-    bottom: 10mm;
-    left: 10mm;
-    right: 10mm;
+    top: var(--frame-outer-inset);
+    bottom: var(--frame-outer-inset);
+    left: var(--frame-outer-inset);
+    right: var(--frame-outer-inset);
     border: 2.2px solid #c9a55c;
     pointer-events: none;
     z-index: 999;
@@ -1269,10 +1201,10 @@ body {
   .printable-invoice::after {
     content: "";
     position: absolute;              /* ⭐ KEY CHANGE */
-    top: 11.5mm;
-    bottom: 11.5mm;
-    left: 11.5mm;
-    right: 11.5mm;
+    top: var(--frame-inner-inset);
+    bottom: var(--frame-inner-inset);
+    left: var(--frame-inner-inset);
+    right: var(--frame-inner-inset);
     border: 1px solid #e6c98a;
     pointer-events: none;
     z-index: 999;
@@ -1316,6 +1248,7 @@ body {
     max-width: 100%;
     margin: 0 auto;
     overflow: hidden;
+    position: relative;
     background: linear-gradient(
     90deg,
     #6f4a37 0%,
@@ -1528,4 +1461,10 @@ body {
     pointer-events: none !important;
     transform: none !important;
 }
+
+    .corner-art,
+    .corner {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
 }

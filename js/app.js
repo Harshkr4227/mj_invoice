@@ -58,16 +58,6 @@ function getAllInvoices() {
     return [];
 }
 
-function getInvoiceByNumber(invoiceNo) {
-    const invoices = getAllInvoices();
-    return invoices.find(inv => inv.invoiceNo === invoiceNo);
-}
-
-function deleteInvoiceByNumber(invoiceNo) {
-    const invoices = getAllInvoices();
-    const updatedInvoices = invoices.filter(inv => inv.invoiceNo !== invoiceNo);
-    localStorage.setItem('invoices', JSON.stringify(updatedInvoices));
-}
 // 🔐 Initialize default login credentials (runs once)
 if (!localStorage.getItem('authInitialized')) {
   localStorage.setItem('username', 'admin');
@@ -85,18 +75,6 @@ function checkAuthentication() {
 function logout() {
     localStorage.removeItem('isLoggedIn');
     window.location.href = 'index.html';
-}
-
-function formatCurrency(amount) {
-    return '₹' + parseFloat(amount).toFixed(2);
-}
-
-function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
 }
 
 function initializeSampleData() {
@@ -178,4 +156,3 @@ function initializeSampleData() {
         initializeSampleData();
     });
 }
-

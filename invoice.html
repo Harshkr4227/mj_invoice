@@ -106,6 +106,12 @@
     </div>
 
     <div id="printableInvoice" class="printable-invoice" style="display: none;">
+        <div class="corner-art" aria-hidden="true">
+            <img src="file.svg" class="corner corner-tl" alt="">
+            <img src="file.svg" class="corner corner-tr" alt="">
+            <img src="file.svg" class="corner corner-bl" alt="">
+            <img src="file.svg" class="corner corner-br" alt="">
+        </div>
         <!-- Watermark: Full logo with shop name, positioned fixed behind all content -->
         <div class="invoice-watermark">
             <img src="public/logo-removebg-preview.png" alt="Watermark" class="watermark-logo">
@@ -383,13 +389,6 @@
             }
         }   
 
-        function calculateMakingAmount(weight, rate, percent, gstPercent) {
-            const metalValue = weight * rate;
-            const makingValue = (metalValue * percent) / 100;
-            const gstOnMaking = (makingValue * gstPercent) / 100;
-            return makingValue + gstOnMaking;
-        }
-
         function updateDefaultMaking(netWeightInput, makingInput, rateInput, percentInput) {
             const settings = getShopSettings();
 
@@ -408,8 +407,6 @@
             else if (settings.makingChargeType === 'percentage') {
                 const metalValue = netWeight * rate;
                 const makingValue = (metalValue * percent) / 100;
-
-                const gstPercent = settings.gstPercentage || 0;
 
                 making = makingValue;
             }

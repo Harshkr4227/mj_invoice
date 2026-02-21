@@ -1466,7 +1466,7 @@ body {
 @media print {
 
     body {
-    background: white !important;
+    background: #f7efe3 !important;
   }
     /* Cream background must survive print */
     .printable-invoice {

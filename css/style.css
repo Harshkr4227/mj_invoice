@@ -436,7 +436,7 @@ body {
 }
 
 .printable-invoice {
-    background: white;
+    background: #f7efe3;
     max-width: 900px;
     margin: 0 auto;
     padding: 40px;
@@ -444,8 +444,29 @@ body {
     z-index: 1;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+
+    background-image:
+      radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 4px 4px;
 }
 
+.printable-invoice::before {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    border: 2px solid #c9a55c; /* gold */
+    pointer-events: none;
+    z-index: 2;
+}
+
+.printable-invoice::after {
+    content: "";
+    position: absolute;
+    inset: 18px;
+    border: 1px solid #e2c98b;
+    pointer-events: none;
+    z-index: 2;
+}
 .invoice-watermark {
     position: fixed;
     top: 50%;
@@ -481,7 +502,7 @@ body {
     border-bottom: 2px solid var(--primary-color);
     padding-bottom: 20px;
     gap: 20px;
-    background: white;
+    background: transparent !important;
     page-break-inside: avoid;
 }
 
@@ -492,7 +513,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: white;
+    background: transparent !important;
 }
 
 .invoice-logo img {
@@ -548,8 +569,87 @@ body {
 }
 
 .invoice-title-inline {
-    text-align: left;
+    text-align: center;
     margin-bottom: 8px;
+}
+.invoice-title-inline p {
+    text-align: left !important;
+    display: block;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* ===== ULTRA REALISTIC TAX INVOICE STRIP ===== */
+
+.invoice-title-inline h3 {
+    display: block !important;              /* ⭐ FULL WIDTH */
+    width: 100%;
+    max-width: 720px;                       /* aligns with table */
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+
+    /* 🎨 REAL JEWELLERY GRADIENT */
+    background: linear-gradient(
+        90deg,
+        #4b2e23 0%,
+        #6b4634 25%,
+        #8a5c3f 50%,
+        #6b4634 75%,
+        #4b2e23 100%
+    ) !important;
+
+    color: #f4ead7 !important; /* luxury cream text */
+    padding: 10px 0 !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 3px !important;
+    text-transform: uppercase !important;
+    border-radius: 3px;
+    border: 1px solid #c9a55c !important;
+
+    box-shadow:
+        0 2px 8px rgba(62,39,35,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.12);
+
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+/* ⭐ LEFT FADE */
+.invoice-title-inline h3::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 64px;
+    height: 100%;
+    pointer-events: none;
+
+    background: linear-gradient(
+        to left,
+        rgba(247,239,227,0) 0%,
+        rgba(247,239,227,0.55) 55%,
+        rgba(247,239,227,0.95) 100%
+    );
+}
+
+/* ⭐ RIGHT FADE */
+.invoice-title-inline h3::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 64px;
+    height: 100%;
+    pointer-events: none;
+
+    background: linear-gradient(
+        to right,
+        rgba(247,239,227,0) 0%,
+        rgba(247,239,227,0.55) 55%,
+        rgba(247,239,227,0.95) 100%
+    );
 }
 
 .customer-details h3 {
@@ -569,13 +669,13 @@ body {
 .invoice-table th,
 .invoice-table td {
     padding: 12px;
-    text-align: left;
+    text-align: center;
     border: 1px solid var(--border-color);
 }
 
 .invoice-table th {
-    background: transparent;
-    color: var(--primary-color);
+    background: linear-gradient(90deg, #5a3a1c, #8b5e34);
+    color: #fff;
     font-weight: 600;
     border-bottom: 2px solid var(--primary-color);
 }
@@ -675,7 +775,7 @@ body {
 }
 
 .records-table-container {
-    background: white;
+    background: transparent !important;
     border-radius: 12px;
     box-shadow: var(--shadow);
     overflow-x: auto;
@@ -877,11 +977,13 @@ body {
   html, body {
     margin: 0;
     padding: 0;
-    background: white;
+    background: transparent !important;
     color: #000;
     zoom: 100%;
     font-size: 14px; /* SAME on PC & Android */
     line-height: 1.45;
+    min-height: calc(100vh - 20mm) !important;
+    height: 100%;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
@@ -904,9 +1006,18 @@ body {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
-    padding: 0;
+    padding: 48px 40px !important;
     background: white;
     box-shadow: none;
+    background: #f7efe3 !important;
+    background-color: #f7efe3 !important;
+    box-shadow: none !important;
+    box-sizing: border-box;
+    min-height: calc(100vh - 20mm) !important;
+    height: auto;
+    overflow: visible;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   /* ========================= */
@@ -1082,3 +1193,339 @@ body {
     page-break-inside: avoid;
   }
 }
+
+/* ============================================================= */
+/* PREMIUM LUXURY INVOICE — Complete Override                     */
+/* High-end jewellery brand aesthetic, fully print-safe           */
+/* ============================================================= */
+
+/* ─── CSS Custom Properties (luxury palette) ─── */
+:root {
+    --gold-rich:    #c9a55c;
+    --gold-light:   #e6c98a;
+    --gold-faint:   rgba(201, 165, 92, 0.08);
+    --brown-deep:   #3e2723;
+    --brown-mid:    #4a3427;
+    --brown-warm:   #5d4037;
+    --cream-paper:  #f7efe3;
+    --cream-text:   #fcf8f2;
+    --ink:          #2c1a10;
+}
+
+/* ─── PRINTABLE INVOICE SHELL ─── */
+/* Scoped to .printable-invoice so nothing else is affected */
+.printable-invoice {
+    position: relative;
+    background-color: var(--cream-paper) !important;
+    /* Subtle linen-weave texture: layered micro-gradients */
+    background-image:
+        /* Very faint vertical threads */
+        repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 23px,
+            rgba(201, 165, 92, 0.028) 23px,
+            rgba(201, 165, 92, 0.028) 24px
+        ),
+        /* Very faint horizontal threads */
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 23px,
+            rgba(201, 165, 92, 0.028) 23px,
+            rgba(201, 165, 92, 0.028) 24px
+        ),
+        /* Warm radial glow centre */
+        radial-gradient(ellipse at 50% 40%, rgba(255,248,235,0.6) 0%, transparent 70%) !important;
+    background-size: auto, auto, 100% 100% !important;
+    font-family: 'Georgia', 'Times New Roman', serif !important;
+    color: var(--ink) !important;
+    padding: 64px 50px !important;
+    max-width: 900px !important;
+    box-shadow: 0 4px 32px rgba(62, 39, 35, 0.12) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+/* ─── DOUBLE GOLDEN BORDER FRAME ─── */
+/* ::before = outer rich-gold, ::after = inner light-gold         */
+/* Both absolutely-positioned so they NEVER shift content         */
+/* ================= LETTER-SAFE DOUBLE BORDER ================= */
+
+.printable-invoice::before {
+    content: "";
+    position: fixed;              /* ⭐ KEY CHANGE */
+    top: 10mm;
+    bottom: 10mm;
+    left: 10mm;
+    right: 10mm;
+    border: 2.2px solid #c9a55c;
+    pointer-events: none;
+    z-index: 999;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .printable-invoice::after {
+    content: "";
+    position: fixed;              /* ⭐ KEY CHANGE */
+    top: 11.5mm;
+    bottom: 11.5mm;
+    left: 11.5mm;
+    right: 11.5mm;
+    border: 1px solid #e6c98a;
+    pointer-events: none;
+    z-index: 999;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+/* ─── SHOP HEADER TYPOGRAPHY ─── */
+#print-shopName {
+    font-family: 'Georgia', serif !important;
+    color: var(--brown-mid) !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.5px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 6px !important;
+}
+
+#print-shopAddress,
+#print-shopEmail,
+#print-gstin {
+    font-size: 0.82rem !important;
+    color: var(--brown-warm) !important;
+    line-height: 1.5 !important;
+    font-style: normal !important;
+}
+
+/* ─── INVOICE HEADER DIVIDER ─── */
+.invoice-header {
+    border-bottom: 2px solid var(--gold-rich) !important;
+    padding-bottom: 20px !important;
+    margin-bottom: 24px !important;
+}
+
+/* ─── ROYAL BROWN → GOLD  "TAX INVOICE"  BAR ─── */
+/* Target: .invoice-title-inline h3                               */
+/* display: inline-block keeps it tight (not full width)         */
+.invoice-title-inline h3 {
+    display: block !important;
+    width: calc(100% - 4px);
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    background: linear-gradient(
+    90deg,
+    #6f4a37 0%,
+    #7b5440 20%,
+    #8a5c3f 50%,
+    #7b5440 80%,
+    #6f4a37 100%
+    ) !important;
+    color: #f4ead7 !important;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.25);
+    padding: 7px 28px !important;
+    border-radius: 2px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 4.5px !important;
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    margin: 10px 0 14px !important;
+    border: 1.5px solid var(--gold-rich) !important;
+    box-shadow: 0 2px 6px rgba(62, 39, 35, 0.22), inset 0 1px 0 rgba(255,255,255,0.1) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+/* ─── INVOICE NUMBER & DATE (below TAX INVOICE bar) ─── */
+.invoice-title-inline p {
+    font-size: 0.85rem !important;
+    color: var(--brown-warm) !important;
+    margin: 3px 0 !important;
+    letter-spacing: 0.4px !important;
+}
+
+/* ─── BILL TO SECTION ─── */
+.customer-details {
+    background: var(--gold-faint) !important;
+    border-left: 3.5px solid var(--gold-rich) !important;
+    border-radius: 0 !important;
+    padding: 14px 18px !important;
+    margin-bottom: 22px !important;
+}
+
+.customer-details h3 {
+    color: var(--brown-mid) !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    margin-bottom: 6px !important;
+    padding-bottom: 4px !important;
+    border-bottom: 1px solid var(--gold-light) !important;
+}
+
+.customer-details p,
+.customer-details strong {
+    font-size: 0.9rem !important;
+    color: var(--ink) !important;
+}
+
+/* ─── TABLE: LUXURY HEADERS ─── */
+.invoice-table th {
+    background: linear-gradient(180deg, #5d4037 0%, var(--brown-deep) 100%) !important;
+    color: var(--cream-text) !important;
+    font-family: 'Georgia', serif !important;
+    font-size: 0.67rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.3px !important;
+    padding: 11px 10px !important;
+    border: 1px solid var(--gold-rich) !important;
+    text-align: center !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+/* ─── TABLE: DATA CELLS ─── */
+.invoice-table td {
+    background: transparent !important;
+    color: var(--brown-deep) !important;
+    font-size: 0.86rem !important;
+    padding: 9px 10px !important;
+    border: 1px solid rgba(201, 165, 92, 0.35) !important;
+    vertical-align: middle !important;
+}
+
+/* Alternating very subtle row tint */
+.invoice-table tbody tr:nth-child(even) td {
+    background: rgba(201, 165, 92, 0.035) !important;
+}
+
+/* ─── TOTALS SECTION ─── */
+.total-row {
+    border-bottom: 1px solid rgba(201, 165, 92, 0.3) !important;
+    color: var(--brown-dark) !important;
+    font-size: 0.88rem !important;
+}
+
+.total-row.grand-total {
+    background: linear-gradient(
+        90deg,
+        rgba(201, 165, 92, 0.14) 0%,
+        rgba(201, 165, 92, 0.04) 100%
+    ) !important;
+    border-top: 2px double var(--gold-rich) !important;
+    border-bottom: 2px double var(--gold-rich) !important;
+    color: var(--brown-deep) !important;
+    font-weight: 700 !important;
+    font-size: 1.05rem !important;
+    padding: 9px 10px !important;
+    letter-spacing: 0.3px !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+/* ─── PAYMENT & FOOTER AREA ─── */
+.payment-details p {
+    font-size: 0.88rem !important;
+    color: var(--brown-warm) !important;
+}
+
+/* ─── SIGNATURE ─── */
+.signature-line {
+    border-top: 1.5px solid var(--brown-mid) !important;
+    width: 220px !important;
+    margin-bottom: 6px !important;
+}
+
+.signature-name {
+    font-size: 0.88rem !important;
+    color: var(--brown-mid) !important;
+    font-weight: 700 !important;
+}
+
+.signature-label {
+    color: var(--brown-warm) !important;
+    font-size: 0.65rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.2px !important;
+}
+
+/* ─── WATERMARK (sepia toned) ─── */
+.invoice-watermark {
+    opacity: 0.12 !important;
+    filter: sepia(0.4) contrast(0.85) brightness(0.95) !important;
+}
+
+/* ─── PRINT MEDIA OVERRIDES ─── */
+/* Ensures all luxury colors survive Chrome / Mac / mobile print  */
+@media print {
+
+    body {
+    background: white !important;
+  }
+    /* Cream background must survive print */
+    .printable-invoice {
+        padding: 0 !important;        /* page margins handled by @page */
+        max-width: 100% !important;
+        background: #f7efe3 !important;
+        background-color: #f7efe3 !important;
+        box-shadow: none !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        min-height: auto;
+        height: auto;
+        overflow: visible;  
+    }
+
+    /* Force-print the double border */
+    .printable-invoice::before,
+    .printable-invoice::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* TAX INVOICE bar: reinforce for print */
+    .invoice-title-inline h3 {
+       background: linear-gradient(
+        90deg,
+        #6f4a37 0%,
+        #7b5440 20%,
+        #8a5c3f 50%,
+        #7b5440 80%,
+        #6f4a37 100%
+    ) !important;
+
+    color: #f4ead7 !important;
+    }
+
+    /* Table headers: reinforce for print */
+    .invoice-table th {
+        background: linear-gradient(180deg, #5d4037 0%, var(--brown-deep) 100%) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* Grand total: reinforce for print */
+    .total-row.grand-total {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* Watermark in print */
+    .invoice-watermark {
+    position: absolute !important;
+    inset: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.08 !important;
+    pointer-events: none !important;
+    transform: none !important;
+}
+}
+

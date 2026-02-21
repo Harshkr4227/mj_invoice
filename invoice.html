@@ -117,7 +117,6 @@
                 <h1 id="print-shopName"></h1>
                 <p id="print-shopAddress"></p>
                 <p>Email: <span id="print-shopEmail"></span></p>
-                <p>GSTIN: <span id="print-gstin"></span></p>
             </div>
             <div class="invoice-logo">
                 <img src="public/logo2.png" alt="" class="logo-img">
@@ -131,6 +130,7 @@
             <div class="invoice-title-inline">
                 <h3>TAX INVOICE</h3>
                 <p>Invoice No: <strong id="print-invoiceNo"></strong></p>
+                <p>GSTIN: <strong id="print-gstin-inline"></strong></p>
                 <p>Date: <strong id="print-invoiceDate"></strong></p>
             </div>
 
@@ -534,9 +534,9 @@
             document.getElementById('print-shopName').textContent = settings.shopName || '';
             document.getElementById('print-shopAddress').textContent = shopAddress;
             document.getElementById('print-shopEmail').textContent = settings.shopEmail || '';
-            document.getElementById('print-gstin').textContent = settings.gstin || '';
 
             document.getElementById('print-invoiceNo').textContent = invoiceData.invoiceNo;
+            document.getElementById('print-gstin-inline').textContent = settings.gstin || '';
             document.getElementById('print-invoiceDate').textContent = formatDate(invoiceData.date);
             document.getElementById('print-customerName').textContent = invoiceData.customerName;
             document.getElementById('print-customerAddress').textContent = invoiceData.customerAddress;

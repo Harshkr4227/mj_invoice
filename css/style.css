@@ -1157,27 +1157,33 @@ body {
 .corner-art {
     position: absolute;
     inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     pointer-events: none;
-    z-index: 5;
+    z-index: 1001;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
 }
 
 .corner {
-    width: var(--corner-size);
-    height: var(--corner-size);
-    position: absolute;
+    width: var(--corner-size) !important;
+    height: var(--corner-size) !important;
+    position: absolute !important;
     display: block;
-    object-fit: contain;
+    object-fit: cover;
+    max-width: none;
+    max-height: none;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
     transform-origin: center;
 }
 
-.corner-tl { top: var(--corner-inset); left: var(--corner-inset); transform: scaleX(-1); }
-.corner-tr { top: var(--corner-inset); right: var(--corner-inset); }
-.corner-bl { bottom: var(--corner-inset); left: var(--corner-inset); transform: scale(-1); }
-.corner-br { bottom: var(--corner-inset); right: var(--corner-inset); transform: scaleY(-1); }
+.corner-tl { top: var(--corner-inset); left: var(--corner-inset); transform: scaleX(-1); object-position: right top; }
+.corner-tr { top: var(--corner-inset); right: var(--corner-inset); transform: none; object-position: right top; }
+.corner-bl { bottom: var(--corner-inset); left: var(--corner-inset); transform: scale(-1); object-position: right bottom; }
+.corner-br { bottom: var(--corner-inset); right: var(--corner-inset); transform: scaleY(-1); object-position: right bottom; }
 
 /* ─── DOUBLE GOLDEN BORDER FRAME ─── */
 /* ::before = outer rich-gold, ::after = inner light-gold         */
@@ -1258,7 +1264,6 @@ body {
     #6f4a37 100%
     ) !important;
     color: #f4ead7 !important;
-    text-shadow: 0 1px 1px rgba(0,0,0,0.25);
     padding: 7px 28px !important;
     border-radius: 2px !important;
     text-transform: uppercase !important;
@@ -1267,7 +1272,6 @@ body {
     font-weight: 700 !important;
     margin: 10px 0 14px !important;
     border: 1.5px solid var(--gold-rich) !important;
-    box-shadow: 0 2px 6px rgba(62, 39, 35, 0.22), inset 0 1px 0 rgba(255,255,255,0.1) !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
 }

@@ -960,6 +960,22 @@ body {
     bottom: 24px !important;
   }
 
+  .table-divider {
+    height: 26px !important;
+    margin: 10px 0 12px !important;
+  }
+
+  .table-divider-ornament {
+    height: 22px !important;
+    max-width: 220px !important;
+  }
+
+  .bottom-flourish {
+    height: 26px !important;
+    max-width: 220px !important;
+    bottom: calc(var(--frame-outer-inset) + 4px) !important;
+  }
+
   .invoice-logo {
     width: 90px;
     height: 90px;
@@ -1140,8 +1156,8 @@ body {
     --frame-outer-inset: 28px;
     --frame-inner-inset: 32px;
     --corner-inset: var(--frame-outer-inset);
-    --corner-size: 90px;
-    --frame-gap: 6px;
+    --corner-size: 78px;
+    --frame-gap: 0px;
     font-size: 13px !important;
     background-color: var(--cream-paper) !important;
     margin: 0 auto;

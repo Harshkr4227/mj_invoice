@@ -891,7 +891,7 @@ body {
     background: #f7efe3 !important;
     color: #000;
     zoom: 100%;
-    font-size: 13.5px; /* SAME on PC & Android */
+    font-size: 13px; /* SAME on PC & Android */
     line-height: 1.45;
     min-height: 100% !important;
     -webkit-print-color-adjust: exact;
@@ -917,7 +917,7 @@ body {
     height: 100% !important;
     max-width: none !important;
     margin: 0 !important;
-    padding: 12mm !important;
+    padding: 26px !important;
     background: #f7efe3 !important;
     box-shadow: none;
     background-color: #f7efe3 !important;
@@ -932,8 +932,8 @@ body {
   }
 
   .printable-invoice {
-    --frame-outer-inset: 12mm;
-    --frame-inner-inset: 13.5mm;
+    --frame-outer-inset: 28px;
+    --frame-inner-inset: 32px;
     --corner-inset: var(--frame-outer-inset);
   }
 
@@ -949,6 +949,15 @@ body {
     padding-bottom: 10px;
     margin-bottom: 15px;
     page-break-inside: avoid;
+  }
+
+  .invoice-footer {
+    margin-bottom: 12px !important;
+    page-break-inside: avoid;
+  }
+
+  .invoice-signature {
+    bottom: 24px !important;
   }
 
   .invoice-logo {
@@ -1128,11 +1137,12 @@ body {
 /* Scoped to .printable-invoice so nothing else is affected */
 .printable-invoice {
     position: relative;
-    --frame-outer-inset: 12px;
-    --frame-inner-inset: 16px;
-    --corner-inset: calc(var(--frame-outer-inset) - 2px);
+    --frame-outer-inset: 28px;
+    --frame-inner-inset: 32px;
+    --corner-inset: var(--frame-outer-inset);
     --corner-size: 90px;
-    font-size: 13.5px !important;
+    --frame-gap: 6px;
+    font-size: 13px !important;
     background-color: var(--cream-paper) !important;
     margin: 0 auto;
     /* Subtle linen-weave texture: layered micro-gradients */
@@ -1174,7 +1184,7 @@ body {
     bottom: 0;
     left: 0;
     pointer-events: none;
-    z-index: 1001;
+    z-index: 10;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
 }
@@ -1184,51 +1194,124 @@ body {
     height: var(--corner-size) !important;
     position: absolute !important;
     display: block;
-    object-fit: cover;
+    object-fit: contain;
     max-width: none;
     max-height: none;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
     transform-origin: center;
+    z-index: 10;
 }
 
-.corner-tl { top: var(--corner-inset); left: var(--corner-inset); transform: scaleX(-1); object-position: right top; }
-.corner-tr { top: var(--corner-inset); right: var(--corner-inset); transform: none; object-position: right top; }
-.corner-bl { bottom: var(--corner-inset); left: var(--corner-inset); transform: scale(-1); object-position: right bottom; }
-.corner-br { bottom: var(--corner-inset); right: var(--corner-inset); transform: scaleY(-1); object-position: right bottom; }
+.corner-tl { top: var(--corner-inset); left: var(--corner-inset); transform: scaleX(-1); }
+.corner-tr { top: var(--corner-inset); right: var(--corner-inset); transform: none; }
+.corner-bl { bottom: var(--corner-inset); left: var(--corner-inset); transform: scale(-1, -1); }
+.corner-br { bottom: var(--corner-inset); right: var(--corner-inset); transform: scaleY(-1); }
 
-/* ─── DOUBLE GOLDEN BORDER FRAME ─── */
-/* ::before = outer rich-gold, ::after = inner light-gold         */
-/* Both absolutely-positioned so they NEVER shift content         */
-/* ================= LETTER-SAFE DOUBLE BORDER ================= */
+.table-divider {
+    position: relative;
+    margin: 12px 0 14px;
+    height: 34px;
+    --divider-line-offset: 2px;
+    --divider-gap: 12px;
+}
 
-.printable-invoice::before {
+.table-divider::before,
+.table-divider::after {
     content: "";
-    position: absolute;              /* ⭐ KEY CHANGE */
+    position: absolute;
+    bottom: var(--divider-line-offset);
+    width: calc(50% - 120px);
+    height: 1px;
+    background: rgba(201, 165, 92, 0.7);
+}
+
+.table-divider::before {
+    left: 0;
+}
+
+.table-divider::after {
+    right: 0;
+}
+
+.table-divider-ornament {
+    position: absolute;
+    left: 50%;
+    bottom: var(--divider-line-offset);
+    width: 220px;
+    max-width: 70%;
+    opacity: 0.72;
+    transform: translateX(-50%) rotate(180deg);
+    mix-blend-mode: multiply;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.bottom-flourish {
+    position: absolute;
+    left: 50%;
+    bottom: calc(var(--frame-outer-inset) + 6px);
+    transform: translateX(-50%) rotate(180deg);
+    width: 200px;
+    max-width: 60%;
+    opacity: 0.7;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 4;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+/* ─── BORDER LINES (segmented, corner-safe) ─── */
+.frame-lines {
+    position: absolute;
     top: var(--frame-outer-inset);
+    right: var(--frame-outer-inset);
     bottom: var(--frame-outer-inset);
     left: var(--frame-outer-inset);
-    right: var(--frame-outer-inset);
-    border: 2.2px solid #c9a55c;
     pointer-events: none;
-    z-index: 999;
+    z-index: 4;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
-  }
+}
 
-  .printable-invoice::after {
+.frame-line {
+    position: absolute;
+    background: #c9a55c;
+}
+
+.frame-top,
+.frame-bottom {
+    height: 2.2px;
+    left: calc(var(--corner-size) + var(--frame-gap));
+    right: calc(var(--corner-size) + var(--frame-gap));
+}
+
+.frame-top { top: 0; }
+.frame-bottom { bottom: 0; }
+
+.frame-left,
+.frame-right {
+    width: 2.2px;
+    top: calc(var(--corner-size) + var(--frame-gap));
+    bottom: calc(var(--corner-size) + var(--frame-gap));
+}
+
+.frame-left { left: 0; }
+.frame-right { right: 0; }
+
+.frame-lines::after {
     content: "";
-    position: absolute;              /* ⭐ KEY CHANGE */
-    top: var(--frame-inner-inset);
-    bottom: var(--frame-inner-inset);
-    left: var(--frame-inner-inset);
-    right: var(--frame-inner-inset);
+    position: absolute;
+    top: calc(var(--frame-gap) / 2);
+    right: calc(var(--frame-gap) / 2);
+    bottom: calc(var(--frame-gap) / 2);
+    left: calc(var(--frame-gap) / 2);
     border: 1px solid #e6c98a;
     pointer-events: none;
-    z-index: 999;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
-  }
+}
 
 /* ─── SHOP HEADER TYPOGRAPHY ─── */
 #print-shopName {
@@ -1299,7 +1382,7 @@ body {
 
 /* ─── BILL TO SECTION ─── */
 .customer-details {
-    background: var(--gold-faint) !important;
+    background: var(--cream-paper) !important;
     border-left: 3.5px solid var(--gold-rich) !important;
     border-radius: 0 !important;
     padding: 14px 18px !important;
@@ -1312,6 +1395,7 @@ body {
     font-weight: 700 !important;
     text-transform: uppercase !important;
     letter-spacing: 1.5px !important;
+    display: inline-block;
     margin-bottom: 6px !important;
     padding-bottom: 4px !important;
     border-bottom: 1px solid var(--gold-light) !important;

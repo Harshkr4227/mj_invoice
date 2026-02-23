@@ -1355,11 +1355,18 @@ body {
 /* ─── INVOICE HEADER DIVIDER ─── */
 .invoice-header {
     border-bottom: 2px solid var(--gold-rich) !important;
-    padding-bottom: 20px !important;
+    padding-bottom: 8px !important;
     margin-bottom: 24px !important;
     align-items: center !important;
 }
 
+.shop-details {
+    padding-top: 6px;
+}
+
+.shop-details p:last-child {
+    margin-bottom: 0 !important;
+}
 /* ─── ROYAL BROWN → GOLD  "TAX INVOICE"  BAR ─── */
 /* Target: .invoice-title-inline h3                               */
 /* display: inline-block keeps it tight (not full width)         */

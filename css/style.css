@@ -1156,8 +1156,8 @@ body {
     --frame-outer-inset: 28px;
     --frame-inner-inset: 32px;
     --corner-inset: var(--frame-outer-inset);
-    --corner-size: 78px;
-    --frame-gap: 0px;
+    --corner-size: 82px;
+    --frame-gap: -2px;
     font-size: 13px !important;
     background-color: var(--cream-paper) !important;
     margin: 0 auto;
@@ -1433,6 +1433,11 @@ body {
     color: var(--ink) !important;
 }
 
+#print-customerName {
+    font-weight: 700 !important;
+    color: var(--brown-mid) !important;
+}
+
 /* ─── TABLE: LUXURY HEADERS ─── */
 .invoice-table th {
     background: linear-gradient(180deg, #5d4037 0%, var(--brown-deep) 100%) !important;
@@ -1517,8 +1522,9 @@ body {
 
 /* ─── WATERMARK (sepia toned) ─── */
 .invoice-watermark {
-    opacity: 0.12 !important;
-    filter: sepia(0.4) contrast(0.85) brightness(0.95) !important;
+    opacity: 0.22 !important;
+    filter: sepia(0.35) contrast(0.95) brightness(1) !important;
+    z-index: 1;
 }
 
 /* ─── PRINT MEDIA OVERRIDES ─── */
@@ -1584,9 +1590,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.08 !important;
+    opacity: 0.18 !important;
     pointer-events: none !important;
     transform: none !important;
+    z-index: 1 !important;
 }
 
     .corner-art,

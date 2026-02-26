@@ -440,7 +440,7 @@ body {
     left: 50%;
     top: 0;
     transform: translateX(-50%);
-    z-index: 0;
+    z-index: 3;
     opacity: 0.25;
     pointer-events: none;
     display: flex;
@@ -1156,7 +1156,7 @@ body {
     position: relative;
     --frame-outer-inset: 28px;
     --frame-inner-inset: 32px;
-    --corner-inset: var(--frame-outer-inset);
+    --corner-inset: calc(var(--frame-outer-inset) - 6px);
     --corner-size: 82px;
     --frame-gap: -2px;
     font-size: 12.5px !important;
@@ -1363,6 +1363,7 @@ body {
 
 .shop-details {
     padding-top: 6px;
+    padding-left: 18px;
 }
 
 .shop-details p:last-child {
@@ -1525,7 +1526,18 @@ body {
 .invoice-watermark {
     opacity: 0.22 !important;
     filter: sepia(0.35) contrast(0.95) brightness(1) !important;
-    z-index: 1;
+    z-index: 3;
+}
+
+.invoice-table {
+    position: relative;
+    z-index: 2;
+}
+
+.invoice-table th,
+.invoice-table td {
+    position: relative;
+    z-index: 4;
 }
 
 /* ─── PRINT MEDIA OVERRIDES ─── */

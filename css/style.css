@@ -1220,10 +1220,10 @@ body {
     z-index: 12;
 }
 
-.corner-tl { top: var(--corner-inset); left: var(--corner-inset); transform: scaleX(-1); }
-.corner-tr { top: var(--corner-inset); right: var(--corner-inset); transform: none; }
-.corner-bl { bottom: var(--corner-inset); left: var(--corner-inset); transform: scale(-1, -1); }
-.corner-br { bottom: var(--corner-inset); right: var(--corner-inset); transform: scaleY(-1); }
+.corner-tl { top: calc(var(--corner-inset) - 4px); left: calc(var(--corner-inset) - 4px); transform: scaleX(-1); }
+.corner-tr { top: calc(var(--corner-inset) - 4px); right: calc(var(--corner-inset) - 4px); transform: none; }
+.corner-bl { bottom: calc(var(--corner-inset) - 4px); left: calc(var(--corner-inset) - 4px); transform: scale(-1, -1); }
+.corner-br { bottom: calc(var(--corner-inset) - 4px); right: calc(var(--corner-inset) - 4px); transform: scaleY(-1); }
 
 .table-divider {
     position: relative;
@@ -1291,42 +1291,18 @@ body {
     left: var(--frame-outer-inset);
     pointer-events: none;
     z-index: 4;
+    border: 2.2px solid #c9a55c;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
 }
 
-.frame-line {
-    position: absolute;
-    background: #c9a55c;
-}
-
-.frame-top,
-.frame-bottom {
-    height: 2.2px;
-    left: calc(var(--corner-size) + var(--frame-gap));
-    right: calc(var(--corner-size) + var(--frame-gap));
-}
-
-.frame-top { top: 0; }
-.frame-bottom { bottom: 0; }
-
-.frame-left,
-.frame-right {
-    width: 2.2px;
-    top: calc(var(--corner-size) + var(--frame-gap));
-    bottom: calc(var(--corner-size) + var(--frame-gap));
-}
-
-.frame-left { left: 0; }
-.frame-right { right: 0; }
-
 .frame-lines::after {
     content: "";
     position: absolute;
-    top: calc(var(--frame-gap) / 2);
-    right: calc(var(--frame-gap) / 2);
-    bottom: calc(var(--frame-gap) / 2);
-    left: calc(var(--frame-gap) / 2);
+    top: 4px;
+    right: 4px;
+    bottom: 4px;
+    left: 4px;
     border: 1px solid #e6c98a;
     pointer-events: none;
     -webkit-print-color-adjust: exact;

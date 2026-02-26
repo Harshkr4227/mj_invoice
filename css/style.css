@@ -1345,8 +1345,7 @@ body {
 }
 
 #print-shopAddress,
-#print-shopEmail,
-#print-gstin {
+#print-shopEmail {
     font-size: 0.82rem !important;
     color: var(--brown-warm) !important;
     line-height: 1.5 !important;

@@ -1340,6 +1340,7 @@ body {
 .shop-details {
     padding-top: 6px;
     padding-left: 18px;
+    text-align: center;
 }
 
 .shop-details p:last-child {

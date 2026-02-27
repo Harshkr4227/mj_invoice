@@ -1314,7 +1314,7 @@ body {
 #print-shopName {
     font-family: 'Georgia', serif !important;
     color: var(--brown-mid) !important;
-    font-size: 2rem !important;
+    font-size: calc(2rem + 4px) !important;
     font-weight: 700 !important;
     letter-spacing: 1.5px !important;
     line-height: 1.2 !important;

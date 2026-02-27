@@ -1156,7 +1156,7 @@ body {
     position: relative;
     --frame-outer-inset: 28px;
     --frame-inner-inset: 32px;
-    --corner-inset: calc(var(--frame-outer-inset) - 6px);
+    --corner-inset: calc(var(--frame-outer-inset) - 4px);
     --corner-size: 82px;
     --frame-gap: -2px;
     --watermark-start: 260px;

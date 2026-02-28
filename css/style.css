@@ -879,15 +879,15 @@ body {
   /* PAGE SETUP */
   /* ========================= */
   @page {
-    size: Letter portrait;
+    size: A4 portrait;
     margin: 0;
   }
 
   html, body {
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100%;
+    width: 210mm;
+    height: 297mm;
     background: #f7efe3 !important;
     color: #000;
     zoom: 100%;
@@ -1548,9 +1548,9 @@ body {
         box-shadow: none !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
-        min-height: auto;
-        height: auto;
-        overflow: visible;  
+        min-height: 100% !important;
+        height: 100% !important;
+        overflow: hidden;
     }
 
     /* Force-print the double border */
